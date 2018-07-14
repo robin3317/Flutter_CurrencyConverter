@@ -8,6 +8,12 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  int _groupValue;
+  void _handleGroupValue(int value) {
+    setState(() {
+      _groupValue = value;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -48,13 +54,52 @@ class HomeState extends State<Home> {
               ),
             ),
             //radio button
-
+            new Row(
+              children: <Widget>[
+                new Padding(padding: new EdgeInsets.only(left: 40.0, top: 70.0)),
+                new Radio<int>(
+                    value: 0,
+                    groupValue: _groupValue,
+                    onChanged: _handleGroupValue,
+                    activeColor: Colors.orangeAccent,
+                ),
+                new Text("TK", style: new TextStyle(fontSize: 20.0),),
+                new Padding(padding: EdgeInsets.only(left: 70.0)),
+                new Radio<int>(
+                    value: 1,
+                    groupValue: _groupValue,
+                    onChanged: _handleGroupValue,
+                    activeColor: Colors.lightGreenAccent,
+                ),
+                new Text("EURO", style: new TextStyle(fontSize: 20.0),)
+              ],
+            ),
+            //convert button
+            new Container(
+              margin: EdgeInsets.only(top: 20.0, left: 70.0, right: 95.0),
+              child: new RaisedButton(
+                  onPressed: () => debugPrint("hi"),
+                  child: new Text(
+                    "Convert",
+                    style: new TextStyle(
+                      fontSize: 22.0, color: Colors.yellowAccent,
+                    ),
+                  ),
+                  color: Colors.blue,
+              ),
+            ),
+            //show result
+            new Container(
+              margin: EdgeInsets.only(left: 110.0, top: 60.0),
+              child: new Text(
+                "Show R",
+                style: new TextStyle(fontSize: 25.0, color: Colors.white),
+              ),
+            )
           ],
 
         ),
       ),
-        //TODO: convert button
-        //TODO: show result
     );
   }
 }
