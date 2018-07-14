@@ -8,12 +8,45 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  int _groupValue;
+  final TextEditingController _getValueAsDollar = new TextEditingController();
+  int _groupValue = 0;
+  double finalResult = 0.0;
+  String convertTo = " TK";
+
+  //logic goes here and print the result
+  void showResult() {
+    setState(() {
+      switch(_groupValue) {
+        case 0:
+          finalResult = calculateMoney(_getValueAsDollar.text, 80.0);
+          convertTo = " TK";
+          break;
+        case 1:
+          finalResult = calculateMoney(_getValueAsDollar.text, 0.85);
+          convertTo = " EURO";
+          break;
+      }
+    });
+  }
+
+  //check the text field value and calculate
+  double calculateMoney(String dollar, double multiplier) {
+    double result;
+    if(dollar.isNotEmpty) {
+      result = double.parse(dollar) * multiplier;
+    }else {
+      result = 0.0;
+    }
+    return result;
+  }
+
+  //check for which one should be active
   void _handleGroupValue(int value) {
     setState(() {
       _groupValue = value;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -40,7 +73,7 @@ class HomeState extends State<Home> {
             new Container(
               margin: const EdgeInsets.only(right: 12.0, left: 12.0, top: 10.0),
               child: new TextField(
-                controller: null,
+                controller: _getValueAsDollar,
                 keyboardType: TextInputType.number,
                 decoration: new InputDecoration(
                   labelText: "Enter number as dollar(\$)",
@@ -78,7 +111,7 @@ class HomeState extends State<Home> {
             new Container(
               margin: EdgeInsets.only(top: 20.0, left: 70.0, right: 95.0),
               child: new RaisedButton(
-                  onPressed: () => debugPrint("hi"),
+                  onPressed: showResult,
                   child: new Text(
                     "Convert",
                     style: new TextStyle(
@@ -92,7 +125,7 @@ class HomeState extends State<Home> {
             new Container(
               margin: EdgeInsets.only(left: 110.0, top: 60.0),
               child: new Text(
-                "Show R",
+                "$finalResult $convertTo",
                 style: new TextStyle(fontSize: 25.0, color: Colors.white),
               ),
             )
